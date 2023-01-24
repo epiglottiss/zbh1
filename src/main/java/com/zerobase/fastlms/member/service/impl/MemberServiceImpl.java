@@ -5,6 +5,8 @@ import com.zerobase.fastlms.admin.mapper.MemberMapper;
 import com.zerobase.fastlms.admin.model.MemberParam;
 import com.zerobase.fastlms.components.MailComponents;
 import com.zerobase.fastlms.course.model.ServiceResult;
+import com.zerobase.fastlms.loginhistory.entity.LoginHistory;
+import com.zerobase.fastlms.loginhistory.repository.LoginHistoryRepository;
 import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.member.entity.MemberCode;
 import com.zerobase.fastlms.member.exception.MemberNotEmailAuthException;
@@ -36,6 +38,7 @@ import java.util.UUID;
 public class MemberServiceImpl implements MemberService {
     
     private final MemberRepository memberRepository;
+    private final LoginHistoryRepository loginHistoryRepository;
     private final MailComponents mailComponents;
     
     private final MemberMapper memberMapper;
@@ -135,6 +138,10 @@ public class MemberServiceImpl implements MemberService {
             for(MemberDto x : list) {
                 x.setTotalCount(totalCount);
                 x.setSeq(totalCount - parameter.getPageStart() - i);
+                Optional<LoginHistory> history = loginHistoryRepository.findTopByUsernameOrderByLoginDtDesc(x.getUserId());
+                if(history.isPresent()) {
+                	x.setLastLoginDt(history.get().getLoginDt());
+                }
                 i++;
             }
         }
@@ -298,6 +305,7 @@ public class MemberServiceImpl implements MemberService {
             grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
 
+        
         return new User(member.getUserId(), member.getPassword(), grantedAuthorities);
     }
 }

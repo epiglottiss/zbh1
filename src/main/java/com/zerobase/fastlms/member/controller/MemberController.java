@@ -5,18 +5,24 @@ import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.course.dto.TakeCourseDto;
 import com.zerobase.fastlms.course.model.ServiceResult;
 import com.zerobase.fastlms.course.service.TakeCourseService;
+import com.zerobase.fastlms.loginhistory.model.LoginHistoryInput;
+import com.zerobase.fastlms.loginhistory.service.LoginHistoryService;
 import com.zerobase.fastlms.member.model.MemberInput;
 import com.zerobase.fastlms.member.model.ResetPasswordInput;
 import com.zerobase.fastlms.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.thymeleaf.spring5.util.SpringRequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,6 +30,7 @@ import java.util.List;
 public class MemberController {
     
     private final MemberService memberService;
+    private final LoginHistoryService loginHistoryService;
     private final TakeCourseService takeCourseService;
     
     @RequestMapping("/member/login")
