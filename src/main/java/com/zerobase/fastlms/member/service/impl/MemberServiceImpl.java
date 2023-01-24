@@ -138,7 +138,7 @@ public class MemberServiceImpl implements MemberService {
             for(MemberDto x : list) {
                 x.setTotalCount(totalCount);
                 x.setSeq(totalCount - parameter.getPageStart() - i);
-                Optional<LoginHistory> history = loginHistoryRepository.findByUsername(x.getUserId());
+                Optional<LoginHistory> history = loginHistoryRepository.findTopByUsernameOrderByLoginDtDesc(x.getUserId());
                 if(history.isPresent()) {
                 	x.setLastLoginDt(history.get().getLoginDt());
                 }

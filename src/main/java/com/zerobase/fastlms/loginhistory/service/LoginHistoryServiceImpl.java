@@ -1,5 +1,9 @@
 package com.zerobase.fastlms.loginhistory.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.zerobase.fastlms.loginhistory.entity.LoginHistory;
@@ -24,6 +28,15 @@ public class LoginHistoryServiceImpl implements LoginHistoryService{
 		loginHistoryRepository.save(history);
 		
 		return false;
+	}
+
+	@Override
+	public List<LoginHistory> list(String userId) {
+		Optional<List<LoginHistory>> list = loginHistoryRepository.findByUsername(userId);
+		if(!list.isPresent()) {
+			return new ArrayList<LoginHistory>();
+		}
+		return list.get();
 	}
 	
 	
