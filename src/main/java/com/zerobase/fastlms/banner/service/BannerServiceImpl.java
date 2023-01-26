@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -67,6 +68,7 @@ public class BannerServiceImpl implements BannerService {
             //수정할 데이터가 없음
             return false;
         }
+        replaceDuplicatedShowOrder(parameter);
         
         Banner banner = optionalBanner.get();
         banner.setAlterText(parameter.getAlterText());
@@ -90,6 +92,7 @@ public class BannerServiceImpl implements BannerService {
             //수정할 데이터가 없음
             return false;
         }
+        replaceDuplicatedShowOrder(parameter);
         
         Banner banner = Banner.builder()
         		.name(newBannerName)
@@ -109,6 +112,7 @@ public class BannerServiceImpl implements BannerService {
 	
 	@Override
 	public boolean add(BannerInput parameter) {
+		replaceDuplicatedShowOrder(parameter);
 		
 		Banner banner = Banner.builder()
 				.alterText(parameter.getAlterText())
@@ -140,7 +144,21 @@ public class BannerServiceImpl implements BannerService {
 		return list;
 	}
 
-
+	private void replaceDuplicatedShowOrder(BannerInput parameter) {
+		Optional<Banner> optionalBanner = bannerRepository.findByShowOrder(parameter.getShowOrder());
+		List<Banner> changeList = new ArrayList<Banner>();
+		while(optionalBanner.isPresent()) {
+			Banner banner = optionalBanner.get();
+			bannerRepository.delete(banner);
+			banner.setShowOrder(banner.getShowOrder()+1);
+			changeList.add(banner);
+			
+			optionalBanner = bannerRepository.findByShowOrder(banner.getShowOrder());
+		}
+		
+		bannerRepository.flush();
+		bannerRepository.saveAll(changeList);
+	}
 
 	
 }

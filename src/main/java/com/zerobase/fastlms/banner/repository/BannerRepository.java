@@ -9,4 +9,5 @@ import com.zerobase.fastlms.banner.entity.Banner;
 
 public interface BannerRepository extends JpaRepository<Banner, String> {
 	Optional<List<Banner>> findByShowFrontOrderByShowOrderAsc(boolean showFront);
+	Optional<Banner> findByShowOrder(int showOrder);
 }
