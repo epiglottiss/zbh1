@@ -27,4 +27,9 @@ public interface BannerService {
 	 * 배너 추가
 	 */
 	boolean add(BannerInput parameter);
+	
+	/**
+	 * 프론트에 보이는 배너 반환 
+	 */
+	public List<BannerDetailDto> list();
 }

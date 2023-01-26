@@ -124,7 +124,7 @@ public class BannerController extends BaseController{
         if (file != null) {
             String originalFilename = file.getOriginalFilename();
             
-            String baseLocalPath = "/Users/user/Documents/sources/zerobase/fastlms/files";
+            String baseLocalPath = "C:/Users/user/Desktop/std/zerobase-backend/web/work1/fastlms3/Files";
             String baseUrlPath = "/files";
             
             String[] arrFilename = getNewSaveFile(baseLocalPath, baseUrlPath, originalFilename);
