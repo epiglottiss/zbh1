@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 화면 - 배너 등록 </title>
+    <style>
+        .detail table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .detail table th, .detail table td {
+            border:solid 1px #000;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .buttons a, .buttons button {
+            border-width: 0;
+            background-color: transparent;
+            text-decoration: underline;
+            font-size: 14px;
+            line-height: 20px;
+            height: 20px;
+            color: #000;
+            cursor: pointer;
+        }
+    </style> 
+</head>
+<body>
+<!--<div th:replace="/fragments/layout.html :: fragment-admin-body-menu"></div>-->
+<h1>배너 관리 - 배너 등록</h1>
+
+<div class="detail">
+
+    <form id="submitForm" method="post" enctype="multipart/form-data">
+
+        <table>
+            <tbody>
+            <tr>
+                <th>배너명</th>
+                <td>
+                	<input th:value="${detail.name}" type="text" name="name" required placeholder="배너명 입력" />
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    배너 파일
+                </th>
+                <td>
+                    <input type="file" name="file" />
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    링크 주소
+                </th>
+                <td>
+                    <input th:value="${detail.clickLink}" type="text" name="clickLink" required placeholder="링크 주소 입력" />
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    오픈 방법
+                </th>
+                <td>
+                    <select name="isNewBrowser" required>
+	                    <option value="false">현재 창에서 보기</option>
+                        <option value="true">새 창에서 보기</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                   정렬 순서
+                </th>
+                <td>
+                    <input th:value="${detail.showOrder}" type="text" name="showOrder" required placeholder="정렬 순서 입력" />
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    공개 여부
+                </th>
+                <td>
+                    <input type="checkbox" th:field="${detail.showFront}"/>공개
+                </td>
+            </tr>
+            
+            </tbody>
+        </table>
+
+        <div class="buttons">
+            <button th:if="${!editMode}" type="submit"> 배너 등록 하기 </button>
+            <button th:if="${editMode}" type="submit"> 배너 수정 하기 </button>
+            <a href="/admin/banner/list.do"> 목록 이동 </a>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>
