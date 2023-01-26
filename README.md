@@ -50,5 +50,13 @@ commit [1467eb85](https://github.com/epiglottiss/zbh1/commit/1467eb85a5caff68ae9
 
 ---
 ### Issue 4. 메인 화면 배너 표시 기능 추가
-- 미구현 
-- 예상 완료일 (1월 28일)
+commit [982be88](https://github.com/epiglottiss/zbh1/commit/982be88cf4f415a813b2edef9adac9e875b7992d)
+- 프론트에 보여야 할 배너를 배너 순서에 맞게 이미지 경로와 클릭 링크를 index 페이지에 전달함
+
+---
+### Issue 5. 배너 표시 순서 등록 시 중복될 경우에 대한 처리
+commit [091f035](https://github.com/epiglottiss/zbh1/commit/091f035414067028b3f5a4fbcd97dd768158f801)
+- 배너의 프론트 표시 순서는 Unique Key로 관리함
+- 기존 : 배너 등록 또는 수정 시, 프론트 표시 순서를 중복되게 입력할 경우 예외 발생하여 처리되지 않음
+- 변경 : 프론트 표시 순서를 중복되게 입력할 경우, 기존 배너의 표시 순서를 1씩 증가시켜 저장함(Delete 이후 Insert)
+- delete하는 대신 Update하려 했으나 JPA에서 의도한 순서로 update되지 않아 Duplicated Unique key 예외 발생
